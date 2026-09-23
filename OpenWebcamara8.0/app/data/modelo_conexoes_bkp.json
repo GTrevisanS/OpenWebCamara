@@ -1,0 +1,35 @@
+{
+    "1": {
+        "NOME": "Conexão vazia / Disponível",
+        "IP": "",
+        "PORTA": "",
+        "DB1": "webcamara_teste",
+        "DB2": "webcamara_teste_arquivos",
+        "EXE": {
+            "VERSAO": "",
+            "EXECUTAVEL": ""
+        }
+    },
+    "2": {
+        "NOME": "Conexão vazia / Disponível",
+        "IP": "",
+        "PORTA": "",
+        "DB1": "webcamara_teste",
+        "DB2": "webcamara_teste_arquivos",
+        "EXE": {
+            "VERSAO": "",
+            "EXECUTAVEL": ""
+        }
+    },
+    "3": {
+        "NOME": "Conexão vazia / Disponível",
+        "IP": "",
+        "PORTA": "",
+        "DB1": "webcamara_teste",
+        "DB2": "webcamara_teste_arquivos",
+        "EXE": {
+            "VERSAO": "",
+            "EXECUTAVEL": ""
+        }
+    }
+}
