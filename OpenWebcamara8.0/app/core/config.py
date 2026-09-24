@@ -4,7 +4,7 @@ import os
 
 MINHAPASTA = r""
 PASTA_X = r""
-CLIENTE_X = "Prudente"                          # Para não deixar exposto o nome do cliente, uso como variável "sensível"
+CLIENTE_X = ""                          # Para não deixar exposto o nome do cliente, uso como variável "sensível"
 
 # ======================== ABAIXO DEFINO AS PREDEFINIÇÕES / DO PROGRAMA =========================
 
@@ -20,7 +20,7 @@ TEMPO_CARREGA_BANNER = 0.0005   # Defino o tempo de carregamento do Banner do si
 
 # (se deixar algo vazio o codigo quebra (pqsim))
 
-USA_BANNER = 0                # 1 = Usar o banner
+USA_BANNER = 1                 # 1 = Usar o banner
 FECHA_LOGIN = 0                # 1 = Fechar programa ao finalizar o login
 ESPERA_LOGIN = 120             # Tempo coletado para definir o quanto o login espera antes de "desistir" no caso do programa nao carregar
 MOSTRA_TITULO = 0              # 1 = Mostrar titulo nos paineis

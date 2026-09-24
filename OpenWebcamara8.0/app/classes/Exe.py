@@ -1,9 +1,9 @@
 import os
 from pathlib import Path
-from style import Style
+from style import style
 
-atc = Style.alterar_cor
-alert = Style.alert
+atc = style.alterar_cor
+alert = style.alert
 
 def somente_abrir_exe(EXE): 
     # Função Criada para abrir um exe especifico (usado no webupload)

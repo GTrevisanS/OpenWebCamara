@@ -3,14 +3,13 @@ import time
 import subprocess
 from pywinauto import Desktop
 from core.config import ESPERA_LOGIN, MINHAPASTA, PASTA_X
-from style.Style import alterar_cor as atc
+from style.style import alterar_cor as atc
 
 def executar_login(usuario, senha, exe):
     oexe = str(exe).replace(MINHAPASTA, "").replace(PASTA_X, "").replace("\\", "")
-    # pasta_exe = str(exe).replace(str(oexe), "")
-    print(atc(f" EXE.......{oexe}", "black", "sim"))
-    # print(atc(f" CAMINHO...{pasta_exe}", "black", "sim"))
 
+    print(atc(f" EXE.......{oexe}", "black", "sim"))
+    
     if not os.path.exists(exe): # VERIFICA SE O EXE EXISTE
         print("\n Executável não encontrado pelo Pywinauto!")
         print(" (Verifique a formatação utilizada)")

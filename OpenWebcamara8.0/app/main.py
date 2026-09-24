@@ -1,7 +1,7 @@
-from classes import Exe, Files
 from core import config
-from core.Login import executar_login
-from style import Style
+from classes import Exe, Files
+from core.login import executar_login
+from style import style
 import random
 import time
 import sys
@@ -10,7 +10,7 @@ from pathlib import Path
 import subprocess
 
 if config.USA_BANNER == 1: # Se a configuração definir que o banner deve ser chamado, ele executa
-    from style import Banner
+    from style import banner
 
 from dotenv import load_dotenv
 load_dotenv(dotenv_path='data/.env') # Puxo os dados da env
@@ -27,12 +27,12 @@ DB = os.getenv('DB')
 DBF = os.getenv('DBF')
 PORTA = os.getenv('PORTA')
 
-atc = Style.alterar_cor
-loading = Style.loading
-centraliza = Style.centraliza
-criar_faixa = Style.criar_faixa
-pause = Style.pause
-alert = Style.alert
+atc = style.alterar_cor
+loading = style.loading
+centraliza = style.centraliza
+criar_faixa = style.criar_faixa
+pause = style.pause
+alert = style.alert
 
 
 def painel():
@@ -53,8 +53,6 @@ def painel():
     PORTA = os.getenv('PORTA')
     CLX = config.CLIENTE_X
 
-
-
     os.system("cls")
     print()
     print(criar_faixa("="))
@@ -63,7 +61,7 @@ def painel():
         print(centraliza("DEFINA QUE TIPO DE AÇÃO VOCÊ DESEJA REALIZAR PELO PAINEL"," "))
         print()
     print(centraliza("WebCamara Homologacão              DIGITE...        [1]"," "))
-    print(centraliza("Conexão rápida (apenas abrir)      DIGITE...        [2]"," "))
+    print(centraliza("Conexão rápida                     DIGITE...        [2]"," "))
     print(centraliza("Conexão Personalizada              DIGITE...        [3]"," "))
     print(centraliza(f"WebCamara {CLX}                 DIGITE...        [4]"," "))
     print(centraliza("Verificar Conexão atual            DIGITE...        [0]"," "))
@@ -79,6 +77,7 @@ def painel():
     match RESPOSTA:
         case "1":
             Files.alterar_conexao(IP,DB,DBF,PORTA)
+            print()
             loading(" Abrindo versão mais recente de Homologação")
             time.sleep(2)
             EXE = Exe.procurar_ultimo_EXE(MINHAPASTA)
@@ -242,7 +241,7 @@ def painel():
             time.sleep(2)
             Exe.somente_abrir_exe(EXE)
         case "f":
-            from core import FastConections as FASTC # Fast-conections ( Conexoes já setadas no json )
+            from core import fastConections as FASTC # Fast-conections ( Conexoes já setadas no json )
             while True:
                 limite = 31
                 FC1 = FASTC.disponiveis[0]
@@ -370,8 +369,10 @@ def painel():
                             contador += 1
                         print()
                         pause()
-
         case "p":
+            print()
+            loading(f' Abrindo "{MINHAPASTA}" ')
+            time.sleep(0.5)
             os.startfile(MINHAPASTA)
             painel()
         case _:

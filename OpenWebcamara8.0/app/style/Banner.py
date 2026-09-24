@@ -1,20 +1,17 @@
 from core.config import CORPADRAO , TEMPO_CARREGA_BANNER as TCB
-from style import Style
+from style import style
 import time
 import os
 
 # Pega a data e hora atual do sistema
 tempo_atual = time.localtime()
 df = time.strftime("%d/%m/%Y", tempo_atual)
-
-# CORPADRAO = Config.CORPADRAO
-# TCB = Config.TEMPO_CARREGA_BANNER
-atc = Style.alterar_cor
-loading = Style.loading
+atc = style.alterar_cor
+loading = style.loading
 os.system(CORPADRAO)
 
 
-bannerp1 = f"""
+parte1 = f"""
 ====================================================================================
     ___                 __        __   _       ____
    / _ \ _ __   ___ _ _ \ \      / /__| |__  /  ___|___  _ __ _    __ _ _ __ __ _
@@ -25,7 +22,7 @@ bannerp1 = f"""
 ====================================================================================
 ⠀                                                                        Versão 8.0                                                                                                                               
 """
-bannerp2 = f"""        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣏⡦⠤⣤⠽⠤⡄
+part2 = f"""        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣏⡦⠤⣤⠽⠤⡄
     ⡴⠋⠙⢦⠀⠀⠀⠀⠀⣀⡤⠤⠣⢈⠇⠀⠁⣠⡿⡄
     ⠀⠀⣠⠏⠀⠀⡠⠂⠉⠀⠀⠀⠀⠀⢀⡀⠈⠀⠀⠈
     ⡴⠋⠀⠀⠀⡔⠀⠀⠀⠀⠀⡀⠀⡰⣯⡀⠀⠀⠀⠀
@@ -34,11 +31,11 @@ bannerp2 = f"""        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣏⡦⠤⣤⠽⠤⡄
      ⠙⢦⣤⣤⣬⡷⣣⠌⣁⠐⠋{df:>67}                                                     
 """
 
-for caractere in bannerp1:
+for caractere in parte1:
     print(caractere, end="", flush=True)
     time.sleep(TCB)
 
-for caractere in bannerp2:
+for caractere in part2:
     print(atc(caractere, "white", "sim"), end="", flush=True)
     time.sleep(TCB)
 

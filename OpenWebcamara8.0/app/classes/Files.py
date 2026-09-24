@@ -34,7 +34,7 @@ def alterar_arquivo(caminho, ip, db, dbf, porta):
 def alterar_conexao(ip, db, dbf, porta):
     alterar_arquivo(CONFIG_INI, ip, db, dbf, porta)
     alterar_arquivo(ENDERECO_INI, ip, db, dbf, porta)
-    print("\n Arquivos atualizados com sucesso!\n")
+    print("\n Arquivos atualizados com sucesso!")
 
 def listar_executaveis_para_print(pasta, inicio):
     if inicio:
