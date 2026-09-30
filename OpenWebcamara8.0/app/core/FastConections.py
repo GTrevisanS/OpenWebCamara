@@ -2,8 +2,8 @@ from pathlib import Path
 import json
 import os
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-ARQUIVO_JSON = BASE_DIR / "data" / "conexoes.json"
+PASTAPRINCIPAL = Path(__file__).resolve().parent.parent
+ARQUIVO_JSON = PASTAPRINCIPAL / "data" / "conexoes.json"
 
 # Caso o arquivo não exista, cria ele por questão de tratativa de erro
 if not os.path.exists(ARQUIVO_JSON):
