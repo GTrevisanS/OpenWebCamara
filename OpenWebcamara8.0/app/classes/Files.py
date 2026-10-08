@@ -1,11 +1,9 @@
 from pathlib import Path
-from core import config
+from core.config import CONFIG_INI, ENDERECO_INI, MINHAPASTA
+from style.style import loading
+import time, os
 
-MINHAPASTA = config.MINHAPASTA
-CONFIG_INI = Path(MINHAPASTA) / "configuracao.ini"
-ENDERECO_INI = Path(MINHAPASTA) / "endereco_ip_servidor.ini"
-
-def ver_conexao_atual(arquivo, linhas):
+def checarConexaoAtual(arquivo, linhas):
     if linhas == 4:
         with open(arquivo, encoding="cp1252") as arquivo:
             linhas = arquivo.read().splitlines()
@@ -18,27 +16,24 @@ def ver_conexao_atual(arquivo, linhas):
         print("\n Você esqueceu de definir as linhas!")
         pause()
 
-def alterar_arquivo(caminho, ip, db, dbf, porta):
-    
+def alterarArquivo(caminho, ip, db, dbf, porta):
     with open(caminho, encoding="cp1252") as arquivo:
         linhas = arquivo.readlines()
-
     linhas[0] = ip + "\n"
     linhas[1] = db + "\n"
     linhas[2] = dbf + "\n"
     linhas[3] = porta + "\n"
-    
     with open(caminho, "w", encoding="cp1252") as arquivo:
         arquivo.writelines(linhas)
 
-def alterar_conexao(ip, db, dbf, porta):
-    alterar_arquivo(CONFIG_INI, ip, db, dbf, porta)
-    alterar_arquivo(ENDERECO_INI, ip, db, dbf, porta)
+def alterarConexao(ip, db, dbf, porta):
+    alterarArquivo(CONFIG_INI, ip, db, dbf, porta)
+    alterarArquivo(ENDERECO_INI, ip, db, dbf, porta)
     print("\n Arquivos atualizados com sucesso!")
 
-def listar_executaveis_para_print(pasta, inicio):
-    if inicio:
-        padrao = f"WebCamara*{str(inicio)}*.exe"
+def listarExecutaveisparaPrint(pasta, filtro=None):
+    if filtro:
+        padrao = f"WebCamara*{str(filtro)}*.exe"
     else:
         padrao = "WebCamara*.exe"
 
@@ -53,3 +48,8 @@ def listar_executaveis_para_print(pasta, inicio):
         item = str(item).lower().replace('webcamara','').replace('.exe','').strip()
         versoes.append(item)
     return versoes
+
+def AbrirMinhaPasta():
+    loading(f' Abrindo "{MINHAPASTA}" ')
+    time.sleep(0.5)
+    os.startfile(MINHAPASTA)

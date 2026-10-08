@@ -1,0 +1,15 @@
+{
+    "programa": {
+        "colunas": 87,
+        "linhas": 22,
+        "tempo_loading_padrao": 1,
+        "tempo_carrega_banner": 0.0005,
+        "paleta_de_cores": "principal"
+    },
+    "ativamento": {
+        "usa_banner": true,
+        "fecha_login": false,
+        "mostra_titulo": false,
+        "espera_login": 120
+    }
+}

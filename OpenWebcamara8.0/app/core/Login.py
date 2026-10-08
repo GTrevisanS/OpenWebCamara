@@ -2,21 +2,21 @@ import os
 import time
 import subprocess
 from pywinauto import Desktop
-from core.config import ESPERA_LOGIN, MINHAPASTA, PASTA_X
-from style.style import alterar_cor as atc
+from core.config import ESPERA_LOGIN, MINHAPASTA, PASTA_X, PALETA_UTILIZADA
+from style.style import alterarCor as atc, coletarPaleta
 
-def executar_login(usuario, senha, exe):
+CorPri, CorSec, CorTer, CorQua = coletarPaleta(PALETA_UTILIZADA, 'principais')
+
+def executarLogin(usuario, senha, exe):
     oexe = str(exe).replace(MINHAPASTA, "").replace(PASTA_X, "").replace("\\", "")
-
-    print(atc(f" EXE.......{oexe}", "black", "sim"))
     
+    print(atc(f" EXE.......{oexe}", CorQua))
     if not os.path.exists(exe): # VERIFICA SE O EXE EXISTE
         print("\n Executável não encontrado pelo Pywinauto!")
         print(" (Verifique a formatação utilizada)")
         input("")
         return False
-
-    print(atc("\n Executável encontrado!, iniciando login.", "blue", "sim"))
+    print(atc("\n Executável encontrado!, iniciando login.", CorTer))
 
     subprocess.Popen([exe]) # ABRE O EXE
     login = Desktop(backend="win32").window(class_name="TLogin_") # IDENTIFICA A TELA DE LOGIN DO PROGRAMA

@@ -1,22 +1,16 @@
-from style.style import centraliza, pause
+from style.style import centraliza, pause, coletarPaleta, alterarCor as atc, cls
+from core.config import PALETA_UTILIZADA, CONFIG_INI, LAST_ACCESS, MINHAPASTA, MOSTRA_TITULO
 from classes import Files
-from core import config
-import os
+
+CorQua, CorFail, CorSuccess, CorLoading = coletarPaleta(PALETA_UTILIZADA, 'tratativas')
 
 def painel_conexaoatual():
-    CONFIG_INI = config.CONFIG_INI
-    LAST_ACCESS = config.LAST_ACCESS
-    MINHAPASTA = config.MINHAPASTA
-    
-    ip, db, dbf, porta = Files.ver_conexao_atual(CONFIG_INI, 4)
-    EXE = Files.ver_conexao_atual(LAST_ACCESS, 1)
+    ip, db, dbf, porta = Files.checarConexaoAtual(CONFIG_INI, 4)
+    EXE = Files.checarConexaoAtual(LAST_ACCESS, 1)
     EXE = EXE.replace(f"{str(MINHAPASTA)}","").replace("\\","")
-
-    os.system("cls")
-    os.system("color 0A")
-
-    print()
-    if config.MOSTRA_TITULO == 1:
+    cls()
+    print(atc("", CorSuccess))
+    if MOSTRA_TITULO == 1:
         print(centraliza(" CONEXÃO ATUAL DA SUA PASTA ABAIXO ", "="))
         print()
     else:
@@ -29,7 +23,7 @@ def painel_conexaoatual():
     print()
     print(f"            Último EXE acessado:            {EXE}")
     print("")
-    if config.MOSTRA_TITULO == 1:
+    if MOSTRA_TITULO == 1:
         print()
         print(centraliza(f" {MINHAPASTA} ", "="))
     else:

@@ -1,0 +1,35 @@
+{
+    "principal": {
+        "primary": "#00FFFF",
+        "secundary": "#FFD700",
+        "tertiary": "#4169E1",
+        "quaternary": "#5A5A5A",
+        "alerts": {
+            "fail": "#FF0000",
+            "success": "#00FF00",
+            "loading": "#FFFFFF"
+        }
+    },
+    "natalina": {
+        "primary": "#FF3333",
+        "secundary": "#269926",
+        "tertiary": "#33FF33",
+        "quaternary": "#5A5A5A",
+        "alerts": {
+            "fail": "#FF3333",
+            "success": "#33FF33",
+            "loading": "#FFFFFF"
+        }
+    },
+    "hallowen": {
+        "primary": "#B86ED0",
+        "secundary": "#FF5C00",
+        "tertiary": "#844AA0",
+        "quaternary": "#5A5A5A",
+        "alerts": {
+            "fail": "#E05243",
+            "success": "#FF5C00",
+            "loading": "#E5E7E9"
+        }
+    }
+}

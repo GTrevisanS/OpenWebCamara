@@ -1,15 +1,10 @@
-import os
 from pathlib import Path
-from style import style
+from style.style import alert, alterarCor as atc, coletarPaleta
+from core.config import PALETA_UTILIZADA
 
-atc = style.alterar_cor
-alert = style.alert
+CorPri, CorSec, CorTer, CorQua = coletarPaleta(PALETA_UTILIZADA, 'principais')
 
-def somente_abrir_exe(EXE): 
-    # Função Criada para abrir um exe especifico (usado no webupload)
-    os.system(f'start "" {EXE}')
-
-def listar_Executaveis(pasta, sistema=None):
+def listarExecutaveis(pasta, sistema=None):
     if sistema:
         sistema = f"*{str(sistema)}*.exe"
     else:
@@ -21,24 +16,23 @@ def listar_Executaveis(pasta, sistema=None):
     )
     return executaveis
 
-def procurar_ultimo_EXE(pasta, sistema=None):
+def procurarUltimoExe(pasta, sistema=None):
     if sistema:
-        lista = listar_Executaveis(pasta, sistema)
+        lista = listarExecutaveis(pasta, sistema)
     else:
-        lista = listar_Executaveis(pasta)
+        lista = listarExecutaveis(pasta)
     if  len(lista) < 1:
         print("\n Nenhum Executável encontrado.")
         return
     return lista[0]
 
-def procurar_exe_manual(pasta, versaoescolhida=None, numeroescolhido=None):
+def procurarExeManualmente(pasta, versaoescolhida=None, numeroescolhido=None):
     # Se não recebeu os valores, solicita ao usuário (So recebe o executável quando é uma fastconection)
     if not versaoescolhida and not numeroescolhido:
         while True:
-            versao = input(atc("\n Versão: ", "yellow", "nao")).replace(" ", "")
+            versao = input(atc("\n Versão: ", CorSec)).replace(" ", "")
             if versao == "":
                 alert(" DIGITE UMA VERSÃO VÁLIDA!")
-                # os.system('cls')
                 continue
             if versao.count(".") == 0:
                 versao = versao[0] + "." + versao[1:]
@@ -66,4 +60,4 @@ def procurar_exe_manual(pasta, versaoescolhida=None, numeroescolhido=None):
     if versaoescolhida or numeroescolhido:
         return None
     # Caso contrário, tenta novamente.
-    return procurar_exe_manual(pasta)
+    return procurarExeManualmente(pasta)

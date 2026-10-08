@@ -1,15 +1,12 @@
+from core.config import PALETA_UTILIZADA, MOSTRA_TITULO, TAMANHO_PADRAO, MINHAPASTA, USUARIOWEBCAM, SENHAWEBCAM, FECHA_LOGIN
+from style.style import centraliza, alterarCor as atc, criar_faixa, pause, loading, redimensionar, cls, coletarPaleta
 from core import fastConections as FASTC # Fast-conections ( Conexoes já setadas no json )
-from style.style import centraliza, alterar_cor as atc, criar_faixa, pause, loading
+from core.login import executarLogin
 from classes import Files, Exe
-from core import config
-from core.login import executar_login
-import os
+
+CorPri, CorSec, CorTer, CorQua, CorFail, CorSuccess, CorLoading  = coletarPaleta(PALETA_UTILIZADA)
 
 def painel_fastconections():
-    TAMANHO_PADRAO = config.TAMANHO_PADRAO
-    MINHAPASTA = config.MINHAPASTA
-    USUARIOWEBCAM = config.USUARIOWEBCAM
-    SENHAWEBCAM = config.SENHAWEBCAM
     while True:
         limite = 31
         FC1 = FASTC.disponiveis[0]
@@ -18,30 +15,30 @@ def painel_fastconections():
         espace2 = (' '*(limite - len(FC2)))
         FC3 = FASTC.disponiveis[2]
         espace3 = (' '*(limite - len(FC3)))
-        os.system("cls")
-        os.system(TAMANHO_PADRAO)
-        print(atc("","black","sim"))
-        if config.MOSTRA_TITULO == 1:
+        cls()
+        redimensionar()
+        print(atc("",CorQua))
+        if MOSTRA_TITULO == 1:
             print(centraliza(' DEFINA QUE TIPO DE AÇÃO DESEJA REALIZAR ','='))
         else: 
             print(centraliza('','='))
-        print(atc("", "cyan", "sim"))
+        print(atc("", CorPri))
         print(f'                FastC1 "{FC1}"{espace1}DIGITE...    [1]')
         print(f'                FastC2 "{FC2}"{espace2}DIGITE...    [2]')
         print(f'                FastC3 "{FC3}"{espace3}DIGITE...    [3]')
         print()
         print(f"                Reabrir último EXE                      DIGITE...    [U]")
         print()
-        print(centraliza(atc("     Visuzalizar conexões                    DIGITE...    [V]", "blue", "sim")," "))
-        print(centraliza(atc("     Editar uma conexão                      DIGITE...    [E]", "blue", "sim")," "))
+        print(centraliza(atc(" Visuzalizar conexões                    DIGITE...    [V]", CorTer)," "))
+        print(centraliza(atc(" Editar uma conexão                      DIGITE...    [E]", CorTer)," "))
         print()
-        print(centraliza(atc("     Voltar ao painel                        DIGITE...    [X]", "black", "sim")," "))
-        print(atc("", "black", "sim"))
+        print(centraliza(atc(" Voltar ao painel                        DIGITE...    [X]", CorQua)," "))
+        print(atc("", CorQua))
         print(criar_faixa("="))
         resposta = input("\n> ")
         resposta = str(resposta).strip().lower()
 
-        def retornar_conexão_json(n): # Utilizada para buscar / printar os dados do json (as conexoes)
+        def coletarConexaoJson(n): # Utilizada para buscar / printar os dados do json (as conexoes)
             n = str(n)
             Nome = FASTC.conexoes[n]["NOME"]
             IP = FASTC.conexoes[n]["IP"]
@@ -53,15 +50,15 @@ def painel_fastconections():
             return Nome, IP, DB1, DB2, Porta, EXE, nEXE
 
         def abrir_conexao_json(n): # Utiliza a funçao de buscar para retornar os valores e trabalha com eles para fazer o login
-            Nome, IP, DB1, DB2, Porta, EXE, nEXE = retornar_conexão_json(n)
+            Nome, IP, DB1, DB2, Porta, EXE, nEXE = coletarConexaoJson(n)
             print()
             loading(f' Abrindo WebCamara "{Nome}"')
-            Files.alterar_conexao(IP, DB1, DB2, Porta)
-            EXE = Exe.procurar_exe_manual(MINHAPASTA, str(EXE), str(nEXE))
+            Files.alterarConexao(IP, DB1, DB2, Porta)
+            EXE = Exe.procurarExeManualmente(MINHAPASTA, str(EXE), str(nEXE))
             if EXE:
-                executar_login(USUARIOWEBCAM, SENHAWEBCAM, EXE)
+                executarLogin(USUARIOWEBCAM, SENHAWEBCAM, EXE)
 
-            if config.FECHA_LOGIN == 1:
+            if FECHA_LOGIN == 1:
                 sys.exit()
 
         match resposta:
@@ -70,8 +67,8 @@ def painel_fastconections():
             case "u":
                 print()
                 loading(f" Reabrindo último executável")
-                EXE = Files.ver_conexao_atual(LAST_ACCESS, 1)
-                executar_login(USUARIOWEBCAM, SENHAWEBCAM, EXE)
+                EXE = Files.checarConexaoAtual(LAST_ACCESS, 1)
+                executarLogin(USUARIOWEBCAM, SENHAWEBCAM, EXE)
             case "1":
                 abrir_conexao_json("1")
             case "2":
@@ -81,13 +78,13 @@ def painel_fastconections():
             case "e":
                 qual = ""
                 while qual not in ("1", "2", "3"):
-                    qual = input(atc('\nQual conexão deseja editar? ', 'white', 'sim')).strip()
+                    qual = input(atc('\nQual conexão deseja editar? ', CorLoading)).strip()
                     if qual not in ("1", "2", "3"):
-                        print(atc('\n Digite um número de 1 a 3 para escolher a conexão alterada!\n','red','sim'))
-                os.system("cls")
-                print(atc(f'\n Você selecionou [{FASTC.conexoes[qual]["NOME"]}]', 'green','sim'))
-                print(atc(f' Deixe os campos que não deseja alterar em branco.', 'black','sim'))
-                NOME = input(atc("\n> Defina um nome para a conexão: ","cyan","sim")).strip()
+                        print(atc('\n Digite um número de 1 a 3 para escolher a conexão alterada!\n', CorFail))
+                cls()
+                print(atc(f'\n Você selecionou [{FASTC.conexoes[qual]["NOME"]}]', CorSuccess))
+                print(atc(f' Deixe os campos que não deseja alterar em branco.', CorQua))
+                NOME = input(atc("\n> Defina um nome para a conexão: ", CorPri)).strip()
                 if NOME:
                     FASTC.editar_json(qual, "NOME", "", NOME)
                 IP = input("\n> IP: ").replace(" ","")
@@ -109,23 +106,20 @@ def painel_fastconections():
                 if EXECUTAVEL == "":
                     EXECUTAVEL = '1'
                 FASTC.editar_json(qual, "EXE", "EXECUTAVEL", EXECUTAVEL)
-                print(atc('\n Conexão alterada com sucesso!', "green", "sim"))
-                print(atc(' (Reinicie o terminal para utilizar da conexão alterada) \n', "black", "sim"))
+                print(atc('\n Conexão alterada com sucesso!', CorSuccess))
+                print(atc(' (Reinicie o terminal para utilizar da conexão alterada) \n', CorQua))
                 input()
 
             case "v":
-                os.system("cls")
-                os.system(f"mode con: lines=36")
+                cls()
+                redimensionar(36)
                 print()
                 contador = 1
-                cores = ["blue", "green", "cyan"]
-                for i in range(len(cores)): # Deixei o range no tamanho da lista de cores pq é a mesma quantidade de conexoes que tem no json
-                    Nome, IP, DB1, DB2, Porta, EXE, nEXE = retornar_conexão_json(f"{contador}")
-                    cor = cores[int(i)]
-                    cor = str(cor).upper()
+                cores = [CorTer, CorSuccess, CorPri]
+                for cor in cores: # Deixei o range no tamanho da lista de cores pq é a mesma quantidade de conexoes que tem no json
+                    Nome, IP, DB1, DB2, Porta, EXE, nEXE = coletarConexaoJson(f"{contador}")
                     EXE = f"{EXE}({nEXE})"
-                    
-                    print(atc('', cor, "sim"))
+                    print(atc('', cor))
                     print(centraliza(f'[ FC{contador} "{Nome}" ]','-'))
                     print()
                     print(f"> IP........  {IP}")
