@@ -23,8 +23,8 @@ part2 = f"""        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣏⡦⠤⣤⠽⠤⡄
      ⠙⢦⣤⣤⣬⡷⣣⠌⣁⠐⠋{HOJE:>67}                                                     
 """
 
-print(atc(" ", CorPri))
 cls()
+print(atc(" ", CorPri), end="", flush=True)
 for caractere in parte1:
     print(caractere, end="", flush=True)
     time.sleep(TEMPO_CARREGA_BANNER)
