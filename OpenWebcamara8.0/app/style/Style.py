@@ -105,3 +105,6 @@ def alert(texto): # Função para dar alerta / usada na tratativa de erro
 
 def cls(): # Função para limpar o terminal
     os.system('cls')
+
+def closeCMD(): # Função para fechar o CMD
+    sys.exit()

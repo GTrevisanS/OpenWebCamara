@@ -1,20 +1,42 @@
 from core.config import PALETA_UTILIZADA, MOSTRA_TITULO, TAMANHO_PADRAO, MINHAPASTA, USUARIOWEBCAM, SENHAWEBCAM, FECHA_LOGIN
-from style.style import centraliza, alterarCor as atc, criar_faixa, pause, loading, redimensionar, cls, coletarPaleta
+from style.style import centraliza, alterarCor as atc, criar_faixa, pause, loading, redimensionar, cls, coletarPaleta, closeCMD
 from core import fastConections as FASTC # Fast-conections ( Conexoes já setadas no json )
 from core.login import executarLogin
 from classes import Files, Exe
 
 CorPri, CorSec, CorTer, CorQua, CorFail, CorSuccess, CorLoading  = coletarPaleta(PALETA_UTILIZADA)
 
+def coletarConexaoJson(n): # Utilizada para buscar / printar os dados do json (as conexoes)
+    n = str(n)
+    Nome = FASTC.conexoes[n]["NOME"]
+    IP = FASTC.conexoes[n]["IP"]
+    DB1 = FASTC.conexoes[n]["DB1"]
+    DB2 = FASTC.conexoes[n]["DB2"]
+    Porta = FASTC.conexoes[n]["PORTA"]
+    EXE = FASTC.conexoes[n]["EXE"]["VERSAO"]
+    nEXE = FASTC.conexoes[n]["EXE"]["EXECUTAVEL"]
+    return Nome, IP, DB1, DB2, Porta, EXE, nEXE
+
+def abrir_conexao_json(n): # Utiliza a funçao de buscar para retornar os valores e trabalha com eles para fazer o login
+    Nome, IP, DB1, DB2, Porta, EXE, nEXE = coletarConexaoJson(n)
+    Files.alterarConexao(IP, DB1, DB2, Porta)
+    EXE = Exe.procurarExeManualmente(MINHAPASTA, str(EXE), str(nEXE))
+    if EXE:
+        print()
+        loading(f' Abrindo WebCamara "{Nome}"')
+        executarLogin(USUARIOWEBCAM, SENHAWEBCAM, EXE)
+    if FECHA_LOGIN == 1:
+        closeCMD()
+
 def painel_fastconections():
+    limite = 34
+    FC1 = FASTC.disponiveis[0]
+    FC2 = FASTC.disponiveis[1]
+    FC3 = FASTC.disponiveis[2]
+    espacoNome1 = (' '*(limite - len(FC1)))
+    espacoNome2 = (' '*(limite - len(FC2)))
+    espacoNome3 = (' '*(limite - len(FC3)))
     while True:
-        limite = 31
-        FC1 = FASTC.disponiveis[0]
-        espace1 = (' '*(limite - len(FC1)))
-        FC2 = FASTC.disponiveis[1]
-        espace2 = (' '*(limite - len(FC2)))
-        FC3 = FASTC.disponiveis[2]
-        espace3 = (' '*(limite - len(FC3)))
         cls()
         redimensionar()
         print(atc("",CorQua))
@@ -23,9 +45,9 @@ def painel_fastconections():
         else: 
             print(centraliza('','='))
         print(atc("", CorPri))
-        print(f'                FastC1 "{FC1}"{espace1}DIGITE...    [1]')
-        print(f'                FastC2 "{FC2}"{espace2}DIGITE...    [2]')
-        print(f'                FastC3 "{FC3}"{espace3}DIGITE...    [3]')
+        print(f'                [1] "{FC1}"{espacoNome1}DIGITE...    [1]')
+        print(f'                [2] "{FC2}"{espacoNome2}DIGITE...    [2]')
+        print(f'                [3] "{FC3}"{espacoNome3}DIGITE...    [3]')
         print()
         print(f"                Reabrir último EXE                      DIGITE...    [U]")
         print()
@@ -37,30 +59,6 @@ def painel_fastconections():
         print(criar_faixa("="))
         resposta = input("\n> ")
         resposta = str(resposta).strip().lower()
-
-        def coletarConexaoJson(n): # Utilizada para buscar / printar os dados do json (as conexoes)
-            n = str(n)
-            Nome = FASTC.conexoes[n]["NOME"]
-            IP = FASTC.conexoes[n]["IP"]
-            DB1 = FASTC.conexoes[n]["DB1"]
-            DB2 = FASTC.conexoes[n]["DB2"]
-            Porta = FASTC.conexoes[n]["PORTA"]
-            EXE = FASTC.conexoes[n]["EXE"]["VERSAO"]
-            nEXE = FASTC.conexoes[n]["EXE"]["EXECUTAVEL"]
-            return Nome, IP, DB1, DB2, Porta, EXE, nEXE
-
-        def abrir_conexao_json(n): # Utiliza a funçao de buscar para retornar os valores e trabalha com eles para fazer o login
-            Nome, IP, DB1, DB2, Porta, EXE, nEXE = coletarConexaoJson(n)
-            print()
-            loading(f' Abrindo WebCamara "{Nome}"')
-            Files.alterarConexao(IP, DB1, DB2, Porta)
-            EXE = Exe.procurarExeManualmente(MINHAPASTA, str(EXE), str(nEXE))
-            if EXE:
-                executarLogin(USUARIOWEBCAM, SENHAWEBCAM, EXE)
-
-            if FECHA_LOGIN == 1:
-                sys.exit()
-
         match resposta:
             case "x":
                 break
@@ -107,9 +105,8 @@ def painel_fastconections():
                     EXECUTAVEL = '1'
                 FASTC.editar_json(qual, "EXE", "EXECUTAVEL", EXECUTAVEL)
                 print(atc('\n Conexão alterada com sucesso!', CorSuccess))
-                print(atc(' (Reinicie o terminal para utilizar da conexão alterada) \n', CorQua))
-                input()
-
+                input(atc(' (Aperte ENTER para fechar o terminal e reiniciar os dados.) \n', CorQua))
+                closeCMD()
             case "v":
                 cls()
                 redimensionar(36)
