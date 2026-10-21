@@ -1,4 +1,4 @@
-from style.style import centraliza, pause, coletarPaleta, alterarCor as atc, cls
+from style.style import centraliza, pause, coletarPaleta, alterarCor as atc, cls, calcularEspaco
 from core.config import PALETA_UTILIZADA, CONFIG_INI, LAST_ACCESS, MINHAPASTA, MOSTRA_TITULO
 from classes import Files
 
@@ -10,20 +10,29 @@ def painel_conexaoatual():
     EXE = EXE.replace(f"{str(MINHAPASTA)}","").replace("\\","")
     cls()
     print(atc("", CorSuccess))
-    if MOSTRA_TITULO == 1:
+    if MOSTRA_TITULO:
         print(centraliza(" CONEXÃO ATUAL DA SUA PASTA ABAIXO ", "="))
         print()
     else:
         print(centraliza("", "="))
+
+    limite = 35
+
+    espaco1 = calcularEspaco(ip, limite)
+    espaco2 = calcularEspaco(db, limite)
+    espaco3 = calcularEspaco(dbf, limite)
+    espaco4 = calcularEspaco(porta, limite)
+    espaco5 = calcularEspaco(EXE, limite)
+
     print("")
-    print(f"            IP:                             {ip}")
-    print(f"            DB1:                            {db}")
-    print(f"            DB2:                            {dbf}")
-    print(f"            PORTA:                          {porta}")
-    print()
-    print(f"            Último EXE acessado:            {EXE}")
-    print("")
-    if MOSTRA_TITULO == 1:
+    print(centraliza(f"IP:                 {espaco1}{ip}", " "))
+    print(centraliza(f"DB1:                {espaco2}{db}", " "))
+    print(centraliza(f"DB2:                {espaco3}{dbf}", " "))
+    print(centraliza(f"PORTA:              {espaco4}{porta}", " "))
+    print(atc("", CorQua))
+    print(centraliza(f"Último EXE acessado:{espaco5}{EXE}", " "))
+    print(atc("", CorSuccess))
+    if MOSTRA_TITULO:
         print()
         print(centraliza(f" {MINHAPASTA} ", "="))
     else:

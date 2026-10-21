@@ -1,13 +1,23 @@
-from core.config import PALETA_UTILIZADA, TEMPO_LOADING_PADRAO, TAMANHO_PADRAO
-from pathlib import Path
 import itertools, json, time, sys, re, os
+from core.config import PALETA_UTILIZADA, TEMPO_LOADING_PADRAO, TAMANHO_PADRAO, COLUNAS
+from utils.json import abrirJson
+from pathlib import Path
 
 # ====================================== PALETAS DE CORES =======================================
 
 pastaPrincipal = Path(__file__).resolve().parent.parent
 paletas = pastaPrincipal / "style" / "palettes.json"
-with open(paletas, "r", encoding="utf-8") as p:
-    arquivoPaletas = json.load(p)
+
+arquivoPaletas = abrirJson(paletas)
+
+def centralizarBanner(texto):
+    linhas = texto.splitlines()
+    maiorLinha = max(len(linha) for linha in linhas)
+
+    return "\n".join(
+        centraliza(linha.ljust(maiorLinha), " ")
+        for linha in linhas
+    )
 
 def coletarPaleta(selecionado, quantidade=None):
     paleta = arquivoPaletas.get(str(selecionado))
@@ -43,9 +53,7 @@ def coletarPaleta(selecionado, quantidade=None):
 
 # ==============================================================================================
 
-
 CorQua, CorFail, CorSuccess, CorLoading = coletarPaleta(PALETA_UTILIZADA, 'tratativas')
-
 
 def alterarCor(texto, cor):
     cor = cor.lstrip("#")
@@ -61,12 +69,16 @@ def centraliza(texto, caractere):
         texto = str(caractere)
     # Remove ANSI somente para calcular o tamanho
     texto_limpo = re.sub(r'\033\[[0-9;]*m', '', texto)
-    espacos = 87 - len(texto_limpo)
+    espacos = COLUNAS - len(texto_limpo)
     if espacos <= 0:
         return texto
     esquerda = espacos // 2
     direita = espacos - esquerda
     return (caractere * esquerda) + texto + (caractere * direita)
+
+def calcularEspaco(textovariavel, limite):
+    textovariavel = str(textovariavel)
+    return (' '*(limite - len(textovariavel)))
 
 
 def loading(texto="Carregando", duracao=TEMPO_LOADING_PADRAO): # Função usada para criar efeito de carregamento visual no terminal
@@ -83,7 +95,7 @@ def loading(texto="Carregando", duracao=TEMPO_LOADING_PADRAO): # Função usada 
 
 def criar_faixa(caractere):
     caractere = str(caractere)
-    faixa = caractere.center(87, caractere) 
+    faixa = caractere.center(COLUNAS, caractere) 
     return faixa
 
 
@@ -98,7 +110,7 @@ def redimensionar(linhas=None, colunas=None):
         os.system(TAMANHO_PADRAO)
 
 def pause():  # Função para pausar processos
-    input(alterarCor("\nPressione ENTER para continuar...", CorQua))
+    input(alterarCor("\n Pressione ENTER para continuar...", CorQua))
 
 def alert(texto): # Função para dar alerta / usada na tratativa de erro
     input(alterarCor(f"{texto}\n",CorSuccess))

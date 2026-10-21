@@ -7,7 +7,7 @@ from pathlib import Path
 
 CorPri, CorSec, CorTer, CorQua = coletarPaleta(PALETA_UTILIZADA, 'principais')
 
-if USA_BANNER == 1: # Se a configuração definir que o banner deve ser chamado, ele executa
+if USA_BANNER: # Se a configuração definir que o banner deve ser chamado, ele executa
     from style import banner
 
 def painel():
@@ -18,7 +18,7 @@ def painel():
         print(atc("", CorPri))
         print(criar_faixa("="))
         print()
-        if MOSTRA_TITULO == 1:
+        if MOSTRA_TITULO:
             print(centraliza("DEFINA QUE TIPO DE AÇÃO VOCÊ DESEJA REALIZAR PELO PAINEL"," "))
             print()
         print(centraliza("WebCamara Homologacão              DIGITE...        [1]"," "))
@@ -36,6 +36,9 @@ def painel():
         RESPOSTA = input("\n> ")
         RESPOSTA = str(RESPOSTA).lower().strip()
         match RESPOSTA:
+            case "c":
+                from painels.configuracoes import painel_configuracoes
+                painel_configuracoes()
             case "1":
                 Files.alterarConexao(IP,DB,DBF,PORTA)
                 print()

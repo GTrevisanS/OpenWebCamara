@@ -1,4 +1,4 @@
-from core.config import PALETA_UTILIZADA, MINHAPASTA, TAMANHO_PADRAO, CLIENTE_X, PASTA_X, MOSTRA_TITULO
+from core.config import PALETA_UTILIZADA, MINHAPASTA, TAMANHO_PADRAO, CLIENTE_X, PASTA_X, MOSTRA_TITULO, COLUNAS
 from style.style import centraliza, alterarCor as atc, criar_faixa, pause, loading, cls, redimensionar, coletarPaleta
 from classes.Files import listarExecutaveisparaPrint
 from classes import Exe
@@ -9,7 +9,7 @@ def painel_listarexes():
         redimensionar()
         cls()
         print(atc("", CorPri))
-        if MOSTRA_TITULO == 1:
+        if MOSTRA_TITULO:
             print(centraliza(" DEFINA A PASTA EM QUE DESEJA LISTAR OS EXE ABAIXO ","="))
         else:
             print(centraliza("", "="))
@@ -53,7 +53,7 @@ def painel_listarexes():
             continue
 
         # Exibe resultados
-        TAMANHOMAX = 83
+        TAMANHOMAX = COLUNAS
         print()
         TITULO = f" ({CONTADOR}) VERSÕES DISPONÍVEIS "
         TITULO = TITULO.center(TAMANHOMAX, "=")
@@ -67,4 +67,4 @@ def painel_listarexes():
             "="
         )
         print(atc(TITULO_PASTA, CorSuccess))
-        input("\nPressione ENTER para voltar...")
+        pause()

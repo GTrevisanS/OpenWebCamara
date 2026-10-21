@@ -1,5 +1,5 @@
-from core.config import PALETA_UTILIZADA, MOSTRA_TITULO, TAMANHO_PADRAO, MINHAPASTA, USUARIOWEBCAM, SENHAWEBCAM, FECHA_LOGIN
-from style.style import centraliza, alterarCor as atc, criar_faixa, pause, loading, redimensionar, cls, coletarPaleta, closeCMD
+from core.config import PALETA_UTILIZADA, MOSTRA_TITULO, MINHAPASTA, USUARIOWEBCAM, SENHAWEBCAM, FECHA_LOGIN
+from style.style import centraliza, alterarCor as atc, criar_faixa, pause, loading, redimensionar, cls, coletarPaleta, closeCMD, calcularEspaco
 from core import fastConections as FASTC # Fast-conections ( Conexoes já setadas no json )
 from core.login import executarLogin
 from classes import Files, Exe
@@ -33,28 +33,28 @@ def painel_fastconections():
     FC1 = FASTC.disponiveis[0]
     FC2 = FASTC.disponiveis[1]
     FC3 = FASTC.disponiveis[2]
-    espacoNome1 = (' '*(limite - len(FC1)))
-    espacoNome2 = (' '*(limite - len(FC2)))
-    espacoNome3 = (' '*(limite - len(FC3)))
+    espacoNome1 = calcularEspaco(FC1, limite)
+    espacoNome2 = calcularEspaco(FC2, limite)
+    espacoNome3 = calcularEspaco(FC3, limite)
     while True:
         cls()
         redimensionar()
         print(atc("",CorQua))
-        if MOSTRA_TITULO == 1:
+        if MOSTRA_TITULO:
             print(centraliza(' DEFINA QUE TIPO DE AÇÃO DESEJA REALIZAR ','='))
         else: 
             print(centraliza('','='))
         print(atc("", CorPri))
-        print(f'                [1] "{FC1}"{espacoNome1}DIGITE...    [1]')
-        print(f'                [2] "{FC2}"{espacoNome2}DIGITE...    [2]')
-        print(f'                [3] "{FC3}"{espacoNome3}DIGITE...    [3]')
+        print(centraliza(f'[1] "{FC1}"{espacoNome1}DIGITE...    [1]', ' '))
+        print(centraliza(f'[2] "{FC2}"{espacoNome2}DIGITE...    [2]', ' '))
+        print(centraliza(f'[3] "{FC3}"{espacoNome3}DIGITE...    [3]', ' '))
         print()
-        print(f"                Reabrir último EXE                      DIGITE...    [U]")
+        print(centraliza(f"Reabrir último EXE                      DIGITE...    [U]"," "))
         print()
-        print(centraliza(atc(" Visuzalizar conexões                    DIGITE...    [V]", CorTer)," "))
-        print(centraliza(atc(" Editar uma conexão                      DIGITE...    [E]", CorTer)," "))
+        print(centraliza(atc("Visuzalizar conexões                    DIGITE...    [V]", CorTer)," "))
+        print(centraliza(atc("Editar uma conexão                      DIGITE...    [E]", CorTer)," "))
         print()
-        print(centraliza(atc(" Voltar ao painel                        DIGITE...    [X]", CorQua)," "))
+        print(centraliza(atc("Voltar ao painel                        DIGITE...    [X]", CorQua)," "))
         print(atc("", CorQua))
         print(criar_faixa("="))
         resposta = input("\n> ")
@@ -84,26 +84,26 @@ def painel_fastconections():
                 print(atc(f' Deixe os campos que não deseja alterar em branco.', CorQua))
                 NOME = input(atc("\n> Defina um nome para a conexão: ", CorPri)).strip()
                 if NOME:
-                    FASTC.editar_json(qual, "NOME", "", NOME)
+                    FASTC.editarJson(qual, "NOME", "", NOME)
                 IP = input("\n> IP: ").replace(" ","")
                 if IP:
-                    FASTC.editar_json(qual, "IP", "", IP)
+                    FASTC.editarJson(qual, "IP", "", IP)
                 PORTA = input("> Porta: ").replace(" ","")
                 if PORTA:
-                    FASTC.editar_json(qual, "PORTA", "", PORTA)
+                    FASTC.editarJson(qual, "PORTA", "", PORTA)
                 DB1 = input("\n> Banco de Registros: ").replace(" ","").lower()
                 if DB1:
-                    FASTC.editar_json(qual, "DB1", "", DB1)
+                    FASTC.editarJson(qual, "DB1", "", DB1)
                 DB2 = input("> Banco de Arquivos: ").replace(" ","").lower()
                 if DB2:
-                    FASTC.editar_json(qual, "DB2", "", DB2)
+                    FASTC.editarJson(qual, "DB2", "", DB2)
                 VERSAO = input("> Versão do EXE : ").replace(" ","").lower()
                 if VERSAO: 
-                    FASTC.editar_json(qual, "EXE", "VERSAO", VERSAO)
+                    FASTC.editarJson(qual, "EXE", "VERSAO", VERSAO)
                 EXECUTAVEL = input("> Número da versão do EXE: ").replace(" ","").lower()
                 if EXECUTAVEL == "":
                     EXECUTAVEL = '1'
-                FASTC.editar_json(qual, "EXE", "EXECUTAVEL", EXECUTAVEL)
+                FASTC.editarJson(qual, "EXE", "EXECUTAVEL", EXECUTAVEL)
                 print(atc('\n Conexão alterada com sucesso!', CorSuccess))
                 input(atc(' (Aperte ENTER para fechar o terminal e reiniciar os dados.) \n', CorQua))
                 closeCMD()

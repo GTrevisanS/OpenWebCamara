@@ -14,15 +14,15 @@ if not os.path.exists(ARQUIVO_JSON):
 with open(ARQUIVO_JSON, "r", encoding="utf-8") as f:
     conexoes = json.load(f)
 
-def coletar_info():
+def coletarInfo():
     disponiveis = []
     for indice, conexao in conexoes.items():
         disponiveis.append(conexao["NOME"])
     return disponiveis
 
-disponiveis = coletar_info() # Coleto todas as informações em formato de lista
+disponiveis = coletarInfo() # Coleto todas as informações em formato de lista
 
-def editar_json(id_conexao, campo, subcampo, novo_valor):
+def editarJson(id_conexao, campo, subcampo, novo_valor):
     with open(ARQUIVO_JSON, "r", encoding="utf-8") as f:
         dados = json.load(f)
     if not subcampo:
