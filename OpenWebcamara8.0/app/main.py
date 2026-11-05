@@ -31,14 +31,13 @@ def painel():
         print(centraliza(atc('Abrir minha pasta                  DIGITE...        [P]', CorTer)," "))
         print(centraliza(atc('Listar todos os EXE´s              DIGITE...        [E]', CorQua)," "))
         print(centraliza(atc('Rodar WebUpload                    DIGITE...        [W]', CorQua)," "))
+        print()
+        print(centraliza(atc('Painel de configuracoes            DIGITE...        [C]', CorQua)," "))
         print(atc('', CorPri))
         print(criar_faixa("="))
         RESPOSTA = input("\n> ")
         RESPOSTA = str(RESPOSTA).lower().strip()
         match RESPOSTA:
-            case "c":
-                from painels.configuracoes import painel_configuracoes
-                painel_configuracoes()
             case "1":
                 Files.alterarConexao(IP,DB,DBF,PORTA)
                 print()
@@ -112,6 +111,9 @@ def painel():
             case "p":
                 print()
                 Files.AbrirMinhaPasta()
+            case "c":
+                from painels.configuracoes import painel_configuracoes
+                painel_configuracoes()
             case _:
                 continue
 painel()

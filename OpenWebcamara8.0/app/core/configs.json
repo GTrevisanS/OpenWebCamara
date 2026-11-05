@@ -1,12 +1,13 @@
 {
-    "colunas": 100,
-    "linhas": 24,
-    "tempo_loading": 1,
-    "tempo_banner": 0.0002,
-    "paletas_temporais": false,
-    "paleta_de_cores": "principal",
-    "usa_banner": false,
-    "fecha_login": false,
-    "mostra_titulo": false,
-    "espera_login": 120
+    "[ESTILO] colunas": 100,
+    "[ESTILO] linhas": 24,
+    "[ESTILO] paletas_temporais": false,
+    "[ESTILO] paleta_de_cores": "principal",
+    "[DEFINE] usa_banner": true,
+    "[DEFINE] fecha_login": true,
+    "[DEFINE] mostra_titulo": false,
+    "[DEFINE] mensagem_banner": true,
+    "[TEMPO ] tempo_loading": 1,
+    "[TEMPO ] tempo_banner": 0.0002,
+    "[TEMPO ] espera_login": 120
 }

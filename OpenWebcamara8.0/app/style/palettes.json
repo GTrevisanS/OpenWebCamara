@@ -8,7 +8,8 @@
             "fail": "#FF0000",
             "success": "#00FF00",
             "loading": "#FFFFFF"
-        }
+        },
+        "mensagem": ""
     },
     "natalina": {
         "primary": "#FF3333",
@@ -19,7 +20,8 @@
             "fail": "#FF3333",
             "success": "#33FF33",
             "loading": "#FFFFFF"
-        }
+        },
+        "mensagem": "Feliz natal!"
     },
     "hallowen": {
         "primary": "#B86ED0",
@@ -30,6 +32,30 @@
             "fail": "#E05243",
             "success": "#FF5C00",
             "loading": "#E5E7E9"
+        },
+        "mensagem": "Feliz hallowen!"
+    },
+    "dia-de-muertos": {
+        "primary": "#8C00FF", 
+        "secundary": "#FF42DC", 
+        "tertiary": "#FF6600", 
+        "quaternary": "#5A5A5A", 
+        "alerts": {
+            "fail": "#FF6F1C", 
+            "success": "#FF42DC", 
+            "loading": "#9E9D9D"
+        },
+        "mensagem": "Feliz dia de los muertos!"
+    },
+    "homem-aranha": {
+        "primary": "#E62429",
+        "secundary": "#1565C0",
+        "tertiary": "#0D47A1",
+        "quaternary": "#5A5A5A",
+        "alerts": {
+            "fail": "#B71C1C",
+            "success": "#2E7D32",
+            "loading": "#B0BEC5"
         }
     }
 }

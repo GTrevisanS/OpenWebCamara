@@ -64,17 +64,21 @@ def alterarCor(texto, cor):
     return f"\033[38;2;{r};{g};{b}m{texto}"
 
 
-def centraliza(texto, caractere):
+def centraliza(texto, caractere, limite=None):
     if not texto:
         texto = str(caractere)
     # Remove ANSI somente para calcular o tamanho
     texto_limpo = re.sub(r'\033\[[0-9;]*m', '', texto)
-    espacos = COLUNAS - len(texto_limpo)
+    if limite:
+        espacos = limite - len(texto_limpo)
+    else:
+        espacos = COLUNAS - len(texto_limpo)
     if espacos <= 0:
         return texto
     esquerda = espacos // 2
     direita = espacos - esquerda
-    return (caractere * esquerda) + texto + (caractere * direita)
+    textofinal = (caractere * esquerda) + texto + (caractere * direita)
+    return textofinal.center(COLUNAS)
 
 def calcularEspaco(textovariavel, limite):
     textovariavel = str(textovariavel)

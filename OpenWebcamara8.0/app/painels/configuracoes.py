@@ -1,5 +1,5 @@
 
-from core.config import JSON_CONFIGURACOES, PALETA_UTILIZADA, MOSTRA_TITULO
+from core.config import JSON_CONFIGURACOES, PALETA_UTILIZADA, MOSTRA_TITULO, COLUNAS, LINHAS
 from style.style import (
     centraliza,
     alterarCor as atc,
@@ -15,28 +15,43 @@ CorPri, CorSec, CorTer, CorQua, CorFail, CorSuccess, CorLoading = coletarPaleta(
 
 configuracoes = abrirJson(JSON_CONFIGURACOES)
 
-
 def printarOpcoes():
     contador = 1
     primeiroLimite = 20
     segundoLimite = 16
+    secaoAtual = None
+
+    secoes = {
+        'ESTILO': 'ESTILIZAÇÃO',
+        'TEMPO': 'TEMPORIZAÇÃO',
+        'DEFINE': 'DEFINIÇÕES'
+    }
+
     for nomeConfiguracao, valor in configuracoes.items():
+        for identificador, titulo in secoes.items():
+            titulo = " " + titulo + " "
+            if identificador in nomeConfiguracao.upper():
+                if secaoAtual != identificador:
+                    print()
+                    print(atc(centraliza(titulo, '-', COLUNAS - 30),CorQua))
+                    print()
+                    secaoAtual = identificador
+                break
         nomeConfiguracao = nomeConfiguracao.replace('_', ' ').strip().title()
+        nomeConfiguracao = nomeConfiguracao[9:]
+
         espacoNome = ' ' * (primeiroLimite - len(nomeConfiguracao))
         espacoValor = atc(' ' * (segundoLimite - len(str(valor))), CorPri)
-        valor = atc('"' + str(valor) + '"',CorSuccess)
-        print(centraliza(
-            f'{nomeConfiguracao}{espacoNome}{valor}{espacoValor}DIGITE...      [{str(contador).zfill(2)}]',
-            ' '
-        ))
+        valor = atc('"' + str(valor) + '"', CorSuccess)
+        print(atc(centraliza(f'{nomeConfiguracao}{espacoNome}{valor}{espacoValor}DIGITE...      [{str(contador).zfill(2)}]',' '), CorPri))
         contador += 1
+
 
 
 def encontrarConfig(numero):
     for contador, (config, valor) in enumerate(configuracoes.items(), start=1):
         if numero == contador:
             return config, valor
-
     return None
 
 
@@ -64,13 +79,13 @@ def editarConfig(numero, novo_valor):
         elif novo_valor.lower() in ("false", "0", "nao", "não"):
             novo_valor = False
         else:
-            print(atc("\n Digite true ou false!\n", CorFail))
+            print(atc("\n Digite true ou false!", CorFail))
             pause()
             return False
 
     elif isinstance(valorOriginal, int):
         if not novo_valor.isdigit():
-            print(atc("\n Digite um número inteiro válido!\n", CorFail))
+            print(atc("\n Digite um número inteiro válido!", CorFail))
             pause()
             return False
 
@@ -94,12 +109,6 @@ def editarConfig(numero, novo_valor):
             print(atc("\n O valor não pode ficar vazio!", CorFail))
             pause()
             return False
-
-        if chave == "paleta_de_cores":
-            if novo_valor.lower() not in ("principal", "natalina", "halloween"):
-                print(atc("\n Paleta não encontrada disponível!", CorFail))
-                pause()
-                return False
 
             novo_valor = novo_valor.lower()
 
@@ -129,7 +138,7 @@ def editarConfig(numero, novo_valor):
         pause()
         return False
 
-    if chave == "paleta_de_cores" and novo_valor not in ("principal", "natalina", "hallowen"):
+    if chave == "paleta_de_cores" and novo_valor not in ("principal", "natalina", "hallowen", "homem-aranha", "dia-de-muertos"):
         print(atc(f"\n {regrasEspecificas['paleta_de_cores']}", CorFail))
         pause()
         return False
@@ -144,7 +153,7 @@ def editarConfig(numero, novo_valor):
 def painel_configuracoes():
     while True:
         cls()
-        redimensionar()
+        redimensionar(LINHAS + 8, COLUNAS)
         print(atc("", CorQua))
         if MOSTRA_TITULO:
             print(centraliza(' DEFINA QUAL CONFIG DESEJA EDITAR ', '='))
@@ -171,7 +180,8 @@ def painel_configuracoes():
                 regra = regrasEspecificas.get(chave, "Não há regras específicas para esta configuração.")
 
                 print(atc("", CorPri))
-                print(centraliza(f" CONFIGURAÇÃO DE {chave.upper().replace('_', ' ')} ", "="))
+                config = chave.upper().replace('_', ' ')
+                print(centraliza(f" CONFIGURAÇÃO DE {config[9:]} ", "="))
                 print(atc(f' ', CorSec))
                 print(centraliza(f'{regra}', " "))
                 print(centraliza(atc(f' O valor atual definido na configuração é "{configEscolhida[1]}" ', CorQua), " "))
